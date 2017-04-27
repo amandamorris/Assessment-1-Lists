@@ -1,4 +1,4 @@
-"""List Assessment
+"""List Assessment 
 
 Edit the functions until all of the doctests pass when
 you run this file.
@@ -16,12 +16,8 @@ def all_odd(numbers):
         >>> all_odd([2, -6, 8])
         []
     """
-    # odd_nums = []
-    # for number in numbers:
-    #     if number % 2 == 1:
-    #         odd_nums.append(number)
-    # return odd_nums
-    return [number for number in numbers if number % 2 == 1]  # with list comprehension
+
+    return [num for num in numbers if num % 2 == 1]
 
 
 def print_indices(items):
@@ -47,7 +43,9 @@ def print_indices(items):
         1 Jeep
         2 Toyota
         3 Volvo
+    
     """
+
     for index, item in enumerate(items):
         print index, item
 
@@ -70,6 +68,13 @@ def foods_in_common(foods1, foods2):
         ... )
         ['bagel', 'cake', 'cheese', 'kale']
 
+    The returned list should not have any duplicates::
+        >>> foods_in_common(
+        ...     ["cheese", "bagel", "cake", "cheese"],
+        ...     ["hummus", "cheese", "beets", "kale", "bagel", "cake"]
+        ... )
+        ['bagel', 'cake', 'cheese']
+
     If there are no foods in common, return an empty list::
 
         >>> foods_in_common(
@@ -79,13 +84,14 @@ def foods_in_common(foods1, foods2):
         []
 
     """
-
-    set1 = set(foods1)  # convert list1 into a set
-    set2 = set(foods2)  # convert list2 into a set
-    common_set = set1 & set2  # take the intersection of the 2 sets
-    common_list = list(common_set)  # convert the intersection into a list
-    common_list.sort()  # sort the list
-    return common_list  # return the sorted intersection list : )
+    common_foods = set([])
+    for food in foods1:
+        if food in foods2:
+            common_foods.add(food)
+    for food in foods2:
+        if food in foods1:
+            common_foods.add(food)
+    return sorted(list(common_foods))
 
 
 def every_other_item(items):
@@ -96,16 +102,16 @@ def every_other_item(items):
        >>> every_other_item([1, 2, 3, 4, 5, 6])
        [1, 3, 5]
 
+       >>> every_other_item(["pickle", "pickle", "juice", "pickle", "juice", "pop"])
+       ['pickle', 'juice', 'juice']
+
        >>> every_other_item(
        ...   ["you", "z", "are", "z", "good", "z", "at", "x", "code"]
        ... )
        ['you', 'are', 'good', 'at', 'code']
     """
-    every_other = []  # create new empty list to store every other item
-    for index, item in enumerate(items):  # iterate over each item, using the index
-        if index % 2 == 0:  # check to see if the index is even
-            every_other.append(item)  # if even, append item to every_other
-    return every_other  # return every_other
+
+    return [item for index, item in enumerate(items) if index % 2 == 0]
 
 
 def largest_n_items(items, n):
@@ -129,12 +135,12 @@ def largest_n_items(items, n):
         >>> largest_n_items([3, 3, 3, 2, 1], 2)
         [3, 3]
     """
-    n_largest = []  # create an empty list to store the n largest inte
-    rev_sorted = sorted(items, reverse=True)  # create a new list with all the items, reverse sorted
-    for i in range(n):
-        n_largest.append(rev_sorted[i])
-    n_largest.sort()
-    return n_largest
+    items.sort()
+
+    if n == 0:
+        return []
+    return items[-n:]
+
 
 #####################################################################
 # END OF ASSESSMENT: You can ignore everything below.
@@ -142,8 +148,6 @@ def largest_n_items(items, n):
 if __name__ == "__main__":
     import doctest
 
-    print
     result = doctest.testmod()
     if not result.failed:
-        print "ALL TESTS PASSED. GOOD WORK!"
-    print
+        print("\nALL TESTS PASSED. GOOD WORK!\n")
